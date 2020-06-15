@@ -1,0 +1,20 @@
+---
+- name: Query isilon array attributes and users
+  hosts: isilon822dc1_local
+  vars:
+    onefs_host: '192.168.21.141'
+    verify_ssl: False
+    api_user: 'root'
+    api_password: 'root'
+    access_zone: 'System'
+
+  tasks:
+
+  - name: Get nodes of the Isilon cluster
+    dellemc_isilon_gatherfacts:
+      onefs_host: "{{onefs_host}}"
+      verify_ssl: "{{verify_ssl}}"
+      api_user: "{{api_user}}"
+      api_password: "{{api_password}}"
+      gather_subset:
+        - attributes

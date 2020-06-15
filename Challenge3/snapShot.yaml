@@ -1,0 +1,9 @@
+---
+- name: Create Isilon snapshot of /ifs/data
+  hosts: isilon822dc1_local
+  vars:
+    onefs_host: '192.168.21.141'
+
+  tasks:
+
+  - name: Create Snapshot

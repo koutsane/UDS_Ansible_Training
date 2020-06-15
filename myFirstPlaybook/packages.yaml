@@ -1,0 +1,12 @@
+---
+- name: "Install ftp and specified package"
+  hosts: centos
+  vars:
+    package: telnet
+
+  tasks:
+
+    - name: Install ftp
+    
+    - name: Install "{{ package }}"
+

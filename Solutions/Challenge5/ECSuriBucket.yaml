@@ -1,0 +1,52 @@
+---
+########### USE ECS MGMT API with ECS_TESTDRIVE ACCOUNT #############
+- name: ECS create new S3 bucket with management API
+  hosts: ecs_testdrive
+  gather_facts: False
+  vars:
+    username: '<username>'
+    password: '<password>'
+    ECS_host: 'portal.ecstestdrive.com'
+    NameSpace: '<namespace>'
+    bucketOwner: "{{NameSpace}}@ecstestdrive.emc.com"
+    BucketName: myAnsible_ECSmgmt_Bucket
+
+  tasks:
+
+  - name: Get ECS API authentication token
+    uri:
+      validate_certs: no
+      user: "{{ username }}"
+      password: "{{ password }}"
+      url: https://{{ECS_host}}/login
+      method: GET
+      headers:
+        Content-Type: application/json
+        Accept: application/json
+      return_content: yes
+    register: results_login
+    no_log: True
+
+  - name: Connect to ECS | create new bucket {{ BucketName }}
+    uri:
+      validate_certs: no
+      url: https://{{ECS_host}}/object/bucket.json
+      method: POST
+      headers:
+        Content-Type: application/json
+        Accept: application/json
+        X-SDS-AUTH-TOKEN: "{{ results_login.x_sds_auth_token }}"
+      body_format: json
+      body:
+        {
+          "name": "{{ BucketName }}",
+          "owner": "{{ bucketOwner }}",
+          "filesystem_enabled": "false",
+          "head_type": "s3",
+          "retention": "3",
+        }
+      return_content: yes
+    register: results_CreateBucket
+
+  - debug:
+     msg="{{ results_CreateBucket }}"

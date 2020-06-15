@@ -1,0 +1,23 @@
+---
+- name: create Isilon NFS export
+  hosts: isilon822dc1_local
+  vars:
+    onefs_host: '192.168.21.141'
+
+  tasks:
+
+  - name: Create an NFS export
+    dellemc_isilon_nfs:
+      onefs_host: "{{onefs_host}}"
+      api_user: "root"
+      api_password: "root"
+      verify_ssl: False
+      path: "/ifs/data"
+      access_zone: "System"
+      sub_directories_mountable: True
+      description: 'Ansible NFS export'
+      state: 'present'
+    register: results
+
+  - debug:
+      msg="{{ results }}"

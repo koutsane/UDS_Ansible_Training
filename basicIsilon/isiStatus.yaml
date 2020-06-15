@@ -1,0 +1,13 @@
+---
+- name: Query isilon status
+  hosts: isilon822dc1
+  vars:
+    isilon_cmd: "isi status"
+
+  tasks:
+    - name: connect to "{{ ansible_host }}" via SSH and issue "isi status"
+      command: "{{ isilon_cmd }}" 
+      register: result
+      changed_when: "'[ ATTN]' in result.stdout"
+      notify: alert
+

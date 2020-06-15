@@ -1,0 +1,17 @@
+---
+########## REQUIRES PYTHON3 and BOTO3 #############
+- name: ECS Create S3 bucket
+  hosts: ecs_testdrive
+  gather_facts: False
+  vars:
+    username: "<username>@ecstestdrive.emc.com"
+    password: "secretkey"
+    ECS_host: "object.ecstestdrive.com"
+
+  tasks:
+
+    - name: Connect to ECS | Create S3 bucket
+      aws_s3:
+
+    - debug:
+

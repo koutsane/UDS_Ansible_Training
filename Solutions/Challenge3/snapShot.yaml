@@ -1,0 +1,20 @@
+---
+- name: Create Isilon snapshot of /ifs/data
+  hosts: isilon822dc1_local
+  vars:
+    onefs_host: '192.168.21.141'
+    path: '/ifs/data'
+
+  tasks:
+
+  - name: Create Snapshot
+    dellemc_isilon_snapshot:
+      onefs_host: "{{onefs_host}}"
+      verify_ssl: False
+      api_user: "root"
+      api_password: "root"
+      path: "{{ path }}"
+      snapshot_name: "Ansible snapshot"
+      desired_retention: "1"
+      retention_unit: "days"
+      state: present

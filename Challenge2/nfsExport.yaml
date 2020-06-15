@@ -1,0 +1,12 @@
+---
+- name: create Isilon NFS export
+  hosts: isilon822dc1_local
+  vars:
+    onefs_host: '192.168.21.141'
+
+  tasks:
+
+  - name: Create an NFS export
+    dellemc_isilon_nfs:
+
+  - debug:
